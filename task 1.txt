@@ -1,0 +1,25 @@
+//this script calculates the sum of two values grabbed from two number fields, Number A and Number B, and displays it in a custom field
+import com.atlassian.jira.component.ComponentAccessor
+
+
+def customFieldManager = ComponentAccessor.customFieldManager;
+
+final def numberAField = 'Number A';
+final def numberBField = 'Number B';
+
+def numberARef = customFieldManager.getCustomFieldObjectsByName(numberAField).first();
+def numberAValue = numberARef.getValue(issue);
+
+def numberBRef = customFieldManager.getCustomFieldObjectsByName(numberBField).first();
+def numberBValue = numberBRef.getValue(issue);
+
+//checking if nothing was entered to either number field and displaying an appropriate error message to avoid NullPointerException
+if (numberAValue == null && numberBValue == null) {
+    return "Error: Missing Number A and Number B values";
+} else if (numberAValue == null && numberBValue != null) {
+    return "Error: Missing Number A";
+} else if (numberAValue != null && numberBValue == null) {
+    return "Error: Missing Number B"
+} else {
+    return numberAValue + numberBValue;
+}

@@ -1,0 +1,18 @@
+//adds the prefix of "URGENT: " to summary of issue if selected priority is Higher or High, and removes it if it's a lower priority when creating a ticket. does not work on edit screen.
+import com.onresolve.jira.groovy.user.FieldBehaviours
+import com.atlassian.jira.issue.priority.Priority
+import groovy.transform.BaseScript
+
+@BaseScript FieldBehaviours fieldBehaviours
+
+//condition to only work in Create screen
+if (getActionName() == "Create") {
+    
+    def priority = (getFieldById(fieldChanged).value as Priority).name
+
+    if (priority == 'Highest' || priority == 'High') {
+        getFieldById('summary').setFormValue("URGENT: ")
+    } else {
+        getFieldById('summary').setFormValue("")
+    }
+}

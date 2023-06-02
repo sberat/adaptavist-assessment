@@ -1,0 +1,10 @@
+//fired on "Issue Commented" events, setting the description of issue to the last comment's text
+
+def issue = event.issue;
+def comments = issue.comments
+
+if (comments) {
+    issue.update { 
+        setDescription(comments.last().body)
+     }
+}
